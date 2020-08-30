@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <stdlib.h>
+
 FileToObject::FileToObject(std::string type, std::string pathfile1, std::string pathfile2,
 const std::string& outputPath1) {
     this->outputPath = outputPath1;
@@ -66,10 +67,38 @@ const std::string& outputPath1) {
 
 CMatrix FileToObject :: addMatrix() {
     CMatrix mat = this->matrix1.add(this->matrix1, this->matrix2);
+    std::ofstream endfile;
+    endfile.open (this->outputPath);
+    for (int i = 0; i < mat.getHeight(); i++) {
+        for (int j = 0; j < mat.getWidth(); j++) {
+            endfile << mat.getValue(i, j);
+            if (j != mat.getWidth() - 1) {
+                endfile << ",";
+            }
+
+        }
+        endfile << "\n";
+    }
+
+    endfile.close();
     return mat;
 }
 CMatrix FileToObject :: multiplyMatrix() {
     CMatrix mat = this->matrix1.multMatrix(this->matrix1, this->matrix2);
+    std::ofstream endfile;
+    endfile.open (this->outputPath);
+    for (int i = 0; i < mat.getHeight(); i++) {
+        for (int j = 0; j < mat.getWidth(); j++) {
+            endfile << mat.getValue(i, j);
+            if (j != mat.getWidth() - 1) {
+                endfile << ",";
+            }
+
+        }
+        endfile << "\n";
+    }
+
+    endfile.close();
     return mat;
 }
 
