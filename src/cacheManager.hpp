@@ -2,10 +2,9 @@
 
 class cacheManager {
     private :
-    std::string m_command;
+        std::string m_command;
 
     public : 
-    cacheManager(std::string command);
-    void doCommand();
-
+        cacheManager(std::string command);
+        void doCommand();
 };
