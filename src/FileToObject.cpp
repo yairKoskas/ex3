@@ -5,6 +5,11 @@
 #include <fstream>
 #include <string>
 #include <stdlib.h>
+FileToObject::FileToObject(const char* type, std::string pathfile1, std::string pathfile2,
+const std::string& outputPath1) {
+    std::string s(type);
+    *this = FileToObject(s,pathfile1,pathfile2,outputPath1);
+}
 
 FileToObject::FileToObject(std::string type, std::string pathfile1, std::string pathfile2,
 const std::string& outputPath1) {
@@ -103,9 +108,9 @@ CMatrix FileToObject :: multiplyMatrix() {
 }
 
 void FileToObject :: rotateBmp() {
-    rotate_image(this->image, this->outputPath);
+    testing::bmp::rotate_image(this->image, this->outputPath);
 
 }
 void FileToObject :: grayBmp() {
-    convert_to_grayscale(this->image, this->outputPath);
+    testing::bmp::convert_to_grayscale(this->image, this->outputPath);
 }
