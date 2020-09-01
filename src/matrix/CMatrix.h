@@ -149,6 +149,11 @@ class CMatrix {
          */
         double operator()(uint32_t rowIndex, uint32_t colIndex) const;
 
+        /**
+         * @brief Construct a new CMatrix object
+         * default constructor
+         */
+        CMatrix();
     private:
         PMatrix m_matrix;
 

@@ -4,7 +4,9 @@
 #include <iostream>
 #include <exception>
 
-
+CMatrix::CMatrix() {
+    *this = CMatrix(0,0);
+}
 CMatrix::CMatrix(uint32_t height, uint32_t width) { 
     if (!error_isSuccess(matrix_create(&m_matrix, height, width)))
        throw std::runtime_error(error_getErrorMessage(matrix_create(&m_matrix, height, width)));
