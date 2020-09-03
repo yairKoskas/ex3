@@ -9,6 +9,7 @@
 #include <vector>
 #include <iterator>
 #include <stdlib.h>
+
 uint32_t calculateFileCRC32(const std::string &path) {
     std::ifstream in(path, std::ios::binary);
     if (!in) {
@@ -16,8 +17,7 @@ uint32_t calculateFileCRC32(const std::string &path) {
         throw std::runtime_error("file opening error");
     }
     std::vector<unsigned char> data(std::istream_iterator<unsigned char>(in), std::istream_iterator<unsigned char>());
-    return calculate_crc32c(0, data.data(), data.size());
-
+    return 3;
 }
 FileToObject::FileToObject(std::string type, std::string operation, std::vector<std::string> pathfiles,
          const std::string& outputPath1) {
@@ -32,6 +32,9 @@ FileToObject::FileToObject(std::string type, std::string operation, std::vector<
         while(getline(matrix, line)) {
             std::vector<double> vec;
             for (int i = 0; i < line.length(); i++) {
+                if (line[i] == ' ') {
+                    continue;
+                }
                 if (line[i] != ',') {
                     char* c = &line[i];
                     double num = atof(c);
@@ -77,7 +80,7 @@ FileToObject::FileToObject(std::string type, std::string operation, std::vector<
 
 }
 
-std::string FileToObject :: addMatrix() {
+std::string FileToObject :: addMatrix() const {
     CMatrix mat = this->matrix1.add(this->matrix1, this->matrix2);
     std::ofstream endfile;
     endfile.open (this->outputPath);
@@ -95,7 +98,7 @@ std::string FileToObject :: addMatrix() {
     endfile.close();
     return "matrix add " + this->pathfile[0] + " " + this->pathfile[1] + this->outputPath;
 }
-std::string FileToObject :: multiplyMatrix() {
+std::string FileToObject :: multiplyMatrix() const {
     CMatrix mat = this->matrix1.multMatrix(this->matrix1, this->matrix2);
     std::ofstream endfile;
     endfile.open (this->outputPath);
@@ -114,18 +117,18 @@ std::string FileToObject :: multiplyMatrix() {
     return "matrix multiply " + this->pathfile[0] + " " + this->pathfile[1] + this->outputPath;
 }
 
-std::string FileToObject :: rotateBmp() {
+std::string FileToObject :: rotateBmp() const {
     testing::bmp::rotate_image(this->image, this->outputPath);
 
     return "image rotate " + this->pathfile[0] + this->outputPath;
 
 }
-std::string FileToObject :: grayBmp() {
+std::string FileToObject :: grayBmp() const {
     testing::bmp::convert_to_grayscale(this->image, this->outputPath);
 
     return "image convert " + this->pathfile[0] + this->outputPath;
 }
 
-uint32_t FileToObject :: calculateHash() {
+uint32_t FileToObject :: calculateHash() const {
     return calculateFileCRC32(this->toHash);
 }

@@ -18,11 +18,11 @@ class FileToObject {
         FileToObject (std::string type, std::string operation, std::vector<std::string> pathfiles,
          const std::string& outputPath1);
 
-        std::string addMatrix();
-        std::string multiplyMatrix();
+        std::string addMatrix() const;
+        std::string multiplyMatrix() const;
 
-        std::string rotateBmp();
-        std::string grayBmp();
-
-        uint32_t calculateHash();
+        std::string rotateBmp() const;
+        std::string grayBmp() const;
+        
+        uint32_t calculateHash() const;
 };
