@@ -1,5 +1,6 @@
 #include "Operation.hpp"
 #include "FileToObject.hpp"
+#include "crc32.h"
 
 Operation::Operation(const std::vector<std::string>& input) {
     this->m_input = input;
@@ -33,7 +34,8 @@ std::string Operation::doInput() {
         }
 
     }
-    if (this->m_input[0] == "binary : hash") {
-
+    if (this->m_input[0] == "hash") {
+        FileToObject object = FileToObject("hash", this->m_input, path, this->m_input[3]);
+        calculate_crc32c(object);
     }
 }
