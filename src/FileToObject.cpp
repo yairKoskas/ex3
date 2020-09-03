@@ -5,20 +5,16 @@
 #include <fstream>
 #include <string>
 #include <stdlib.h>
-FileToObject::FileToObject(const char* type, std::string pathfile1, std::string pathfile2,
-const std::string& outputPath1) {
-    std::string s(type);
-    *this = FileToObject(s,pathfile1,pathfile2,outputPath1);
-}
 
-FileToObject::FileToObject(std::string type, std::string pathfile1, std::string pathfile2,
-const std::string& outputPath1) {
+FileToObject::FileToObject(std::string type, std::string operation, std::vector<std::string> pathfiles,
+         const std::string& outputPath1) {
     this->outputPath = outputPath1;
+    this->pathfile = pathfiles;
     if (type == "matrix") {
         std::ifstream matrix;
         std::string line;
 
-        matrix.open (pathfile1);
+        matrix.open (pathfiles[0]);
         std::vector<std::vector<double>> mat;
         while(getline(matrix, line)) {
             std::vector<double> vec;
@@ -39,7 +35,7 @@ const std::string& outputPath1) {
             }
         }
 
-        matrix.open (pathfile2);
+        matrix.open (pathfiles[1]);
         std::vector<std::vector<double>> mat2;
         while(getline(matrix, line)) {
             std::vector<double> vec;
@@ -62,7 +58,7 @@ const std::string& outputPath1) {
 
     }
     if (type == "image") {
-        this->image = pathfile1;
+        this->image = pathfiles[0];
     }
     if (type == "bitfile") {
         //bitfile = pathfile1;
@@ -70,7 +66,7 @@ const std::string& outputPath1) {
 
 }
 
-CMatrix FileToObject :: addMatrix() {
+std::string FileToObject :: addMatrix() {
     CMatrix mat = this->matrix1.add(this->matrix1, this->matrix2);
     std::ofstream endfile;
     endfile.open (this->outputPath);
@@ -86,9 +82,9 @@ CMatrix FileToObject :: addMatrix() {
     }
 
     endfile.close();
-    return mat;
+    return "matrix add " + this->pathfile[0] + " " + this->pathfile[1] + this->outputPath;
 }
-CMatrix FileToObject :: multiplyMatrix() {
+std::string FileToObject :: multiplyMatrix() {
     CMatrix mat = this->matrix1.multMatrix(this->matrix1, this->matrix2);
     std::ofstream endfile;
     endfile.open (this->outputPath);
@@ -104,13 +100,17 @@ CMatrix FileToObject :: multiplyMatrix() {
     }
 
     endfile.close();
-    return mat;
+    return "matrix multiply " + this->pathfile[0] + " " + this->pathfile[1] + this->outputPath;
 }
 
-void FileToObject :: rotateBmp() {
-    testing::bmp::rotate_image(this->image, this->outputPath);
+std::string FileToObject :: rotateBmp() {
+    rotate_image(this->image, this->outputPath);
+
+    return "image rotate " + this->pathfile[0] + this->outputPath;
 
 }
-void FileToObject :: grayBmp() {
-    testing::bmp::convert_to_grayscale(this->image, this->outputPath);
+std::string FileToObject :: grayBmp() {
+    convert_to_grayscale(this->image, this->outputPath);
+
+    return "image convert " + this->pathfile[0] + this->outputPath;
 }

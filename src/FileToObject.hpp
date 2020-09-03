@@ -10,15 +10,17 @@ class FileToObject {
         std::string image;
         //crc32 bitfile;
         std::string outputPath;
+        std::vector<std::string> pathfile;
+
 
 
     public:
-        FileToObject (std::string type, std::string pathfile1, std::string pathfile2,
+        FileToObject (std::string type, std::string operation, std::vector<std::string> pathfiles,
          const std::string& outputPath1);
 
-        CMatrix addMatrix();
-        CMatrix multiplyMatrix();
+        std::string addMatrix();
+        std::string multiplyMatrix();
 
-        void rotateBmp();
-        void grayBmp();
+        std::string rotateBmp();
+        std::string grayBmp();
 };
