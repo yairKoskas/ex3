@@ -31,5 +31,6 @@
 *.out
 *.app
 
-# VSCode
+#make files
+/build
 /.vscode
