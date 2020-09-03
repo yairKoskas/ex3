@@ -8,22 +8,23 @@
 #include <experimental/filesystem>
 #include <unistd.h>
 
-cacheManager::cacheManager(std::string command) {
+cacheManager::cacheManager(int size,std::string command) {
+    this->m_size = size;
     this->m_command = command;
 }
 
 void cacheManager::doCommand() {
     std::vector<std::string> command;
     std::string com = this->m_command;
-    int i = 0;
-    std::string str;
+    std::size_t i = 0;
+    std::string string;
      while (i < com.size()) {
         while (com[i] != ' ') {
-            str = str + com[i];
+            string = string + com[i];
             i++;
         }
         i++;
-        command.push_back(str);
+        command.push_back(string);
      }
     
     Operation operation = Operation(command);
@@ -31,12 +32,11 @@ void cacheManager::doCommand() {
     std::fstream cache;
     std::string line;
     std::string order;
-    for (int n = 0; n < command.size() - 2; n++) {
+    for (std::size_t n = 0; n < command.size() - 2; n++) {
         order = order + command[n];
     } 
 
     cache.open("cache/manage.txt");
-    int numline = 0;
     while(getline(cache, line)) {
         std::string::size_type loc = line.find(order, 0);
         if (loc != std::string::npos) {
@@ -45,15 +45,15 @@ void cacheManager::doCommand() {
             std::fstream found;
 
             std::vector<std::string> lin;
+            std::string str;
             i = 0;
             while (i < line.size()) {
                 while (line[i] != ' ') {
-                    std::string str;
                     str = str + line[i];
                     i++;;
-                    }
-                    lin.push_back(str);
-                    }
+                }
+                lin.push_back(str);
+            }
         found.open(lin[lin.size() - 1]);
         found << end.rdbuf();
         end.close();
