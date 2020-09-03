@@ -7,4 +7,5 @@ class cacheManager {
     public : 
         cacheManager(std::string command);
         void doCommand();
+        void clear();
 };
