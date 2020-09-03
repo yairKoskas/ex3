@@ -10,7 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 add_executable(ex3.out bmp/BMP.cpp
                 bmp/bmp_tester.cpp
                 cacheManager.cpp
-                crc32.c
+                crc32.cpp
                 main.cpp
                 matrix/CMatrix.cpp
                 )
