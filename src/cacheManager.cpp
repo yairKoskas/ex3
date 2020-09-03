@@ -16,11 +16,11 @@ void cacheManager::doCommand() {
     std::vector<std::string> command;
     std::string com = this->m_command;
     int i = 0;
+    std::string str;
      while (i < com.size()) {
         while (com[i] != ' ') {
-            std::string str;
-            str = str + com[i]
-            i++
+            str = str + com[i];
+            i++;
         }
         i++;
         command.push_back(str);
@@ -31,17 +31,17 @@ void cacheManager::doCommand() {
     std::fstream cache;
     std::string line;
     std::string order;
-    for (int n = 0; n < command.size - 2; n++) {
+    for (int n = 0; n < command.size() - 2; n++) {
         order = order + command[n];
     } 
 
     cache.open("cache/manage.txt");
     int numline = 0;
     while(getline(cache, line)) {
-        string::size_type loc = line.find(order, 0);
-        if (loc != string::npos) {
+        std::string::size_type loc = line.find(order, 0);
+        if (loc != std::string::npos) {
             std::fstream end;
-            end.open(command[command.size - 1]);
+            end.open(command[command.size() - 1]);
             std::fstream found;
 
             std::vector<std::string> lin;
@@ -49,14 +49,14 @@ void cacheManager::doCommand() {
             while (i < line.size()) {
                 while (line[i] != ' ') {
                     std::string str;
-                    str = str + line[i]
-                    i++;
+                    str = str + line[i];
+                    i++;;
                     }
                     lin.push_back(str);
                     }
         found.open(lin[lin.size() - 1]);
-        copy(found, end);
-         end.close();
+        found << end.rdbuf();
+        end.close();
         found.close();
         std::cout << "found solution in cache" << std::endl;
         return;

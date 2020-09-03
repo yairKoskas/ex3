@@ -1,11 +1,24 @@
 #include "FileToObject.hpp"
-#include "BMP.h"
-#include "CMatrix.h"
+#include "bmp/BMP.h"
+#include "matrix/CMatrix.h"
+#include "crc32.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <iterator>
 #include <stdlib.h>
+uint32_t calculateFileCRC32(const std::string &path) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) {
+        in.close();
+        throw std::runtime_error("file opening error");
+    }
+    std::vector<unsigned char> data(std::istream_iterator<unsigned char>(in), std::istream_iterator<unsigned char>());
+    return calculate_crc32c(0, data.data(), data.size());
 
+}
 FileToObject::FileToObject(std::string type, std::string operation, std::vector<std::string> pathfiles,
          const std::string& outputPath1) {
     this->outputPath = outputPath1;
@@ -56,12 +69,10 @@ FileToObject::FileToObject(std::string type, std::string operation, std::vector<
             }
         }
 
-    }
-    if (type == "image") {
+    } else if (type == "image") {
         this->image = pathfiles[0];
-    }
-    if (type == "bitfile") {
-        //bitfile = pathfile1;
+    } else if (type == "hash") {
+        this->toHash = pathfiles[0];
     }
 
 }
@@ -104,13 +115,17 @@ std::string FileToObject :: multiplyMatrix() {
 }
 
 std::string FileToObject :: rotateBmp() {
-    rotate_image(this->image, this->outputPath);
+    testing::bmp::rotate_image(this->image, this->outputPath);
 
     return "image rotate " + this->pathfile[0] + this->outputPath;
 
 }
 std::string FileToObject :: grayBmp() {
-    convert_to_grayscale(this->image, this->outputPath);
+    testing::bmp::convert_to_grayscale(this->image, this->outputPath);
 
     return "image convert " + this->pathfile[0] + this->outputPath;
+}
+
+uint32_t FileToObject :: calculateHash() {
+    return calculateFileCRC32(this->toHash);
 }

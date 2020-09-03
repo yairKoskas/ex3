@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <string>
 #include "matrix/CMatrix.h"
-#include "BMP.h"
-#include "bmp_tester.hpp"
+#include "bmp/BMP.h"
+#include "bmp/bmp_tester.hpp"
 class FileToObject {
     private:
         CMatrix matrix1;
         CMatrix matrix2;
         std::string image;
-        //crc32 bitfile;
+        std::string toHash;
         std::string outputPath;
         std::vector<std::string> pathfile;
 
@@ -23,4 +23,6 @@ class FileToObject {
 
         std::string rotateBmp();
         std::string grayBmp();
+
+        uint32_t calculateHash();
 };
