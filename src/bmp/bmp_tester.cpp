@@ -1,5 +1,4 @@
 #include <stdbool.h>
-#include <string>
 #include <memory>
 #include "bmp_tester.hpp"
 #include "BMP.h"

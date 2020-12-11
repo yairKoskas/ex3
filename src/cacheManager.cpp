@@ -1,11 +1,12 @@
 #include "cacheManager.hpp"
 
 #include <iostream>
+#include <stdlib.h>
 #include <filesystem>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fstream>
-#include <experimental/filesystem>
+#include <filesystem>
 #include <unistd.h>
 
 cacheManager::cacheManager(int size,std::string command) {
@@ -68,5 +69,5 @@ void cacheManager::doCommand() {
 }
 
 void cacheManager::clear() {
-   std::experimental::filesystem::remove_all("./bin/cache");
+    rmdir("./bin/cache");
 }
